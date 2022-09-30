@@ -44,6 +44,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repo
       - uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
@@ -52,24 +53,42 @@ jobs:
       - name: Log in to GitHub container registry
         uses: docker/login-action@v1.10.0
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ github.token }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
-      - name: Build and push container image to registry
+      - name: Build and push Docker image
         id: build-and-push
-        run: |
-          docker login
-          docker build -f Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        # uses: docker/build-push-action@v2
-        # with:
-        #   push: true
-        #   tags: ghcr.io/${{ env.IMAGE_NAME }}
-        #   file: ./Dockerfile
+        uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      # - name: Build and push container image to registry
+      #   id: build-and-push
+      #   run: |
+      #     docker login
+      #     docker build -f Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
+      #     docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      # uses: docker/build-push-action@v2
+      # with:
+      #   push: true
+      #   tags: ghcr.io/${{ env.IMAGE_NAME }}
+      #   file: ./Dockerfile
 
   deploy:
     permissions:
@@ -90,4 +109,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: "ghcr.io/${{ env.IMAGE_NAME }}"
+          images: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
