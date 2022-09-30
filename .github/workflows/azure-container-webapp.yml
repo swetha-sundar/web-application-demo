@@ -76,19 +76,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      # - name: Build and push container image to registry
-      #   id: build-and-push
-      #   run: |
-      #     docker login
-      #     docker build -f Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
-      #     docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      # uses: docker/build-push-action@v2
-      # with:
-      #   push: true
-      #   tags: ghcr.io/${{ env.IMAGE_NAME }}
-      #   file: ./Dockerfile
+          file: ./Dockerfile
 
   deploy:
     permissions:
