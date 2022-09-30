@@ -65,7 +65,6 @@ jobs:
           docker login
           docker build -f Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          echo "::set-output name=digest::$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} | cut -d'@' -f2)"
         # uses: docker/build-push-action@v2
         # with:
         #   push: true
