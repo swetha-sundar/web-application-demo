@@ -62,8 +62,9 @@ jobs:
       - name: Build and push container image to registry
         id: build-and-push
         run: |
+          docker login
           docker build -f Dockerfile -t ${{ env.IMAGE_NAME }} .
-          docker push ${{ env.IMAGE_NAME }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           echo "::set-output name=digest::$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.IMAGE_NAME }} | cut -d'@' -f2)"
         # uses: docker/build-push-action@v2
         # with:
