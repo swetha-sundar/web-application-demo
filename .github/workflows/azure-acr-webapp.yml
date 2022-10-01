@@ -68,8 +68,8 @@ jobs:
           tenant: ${{ secrets.tenant }}
           registry: ${{ secrets.registry }}
           repository: ${{ secrets.repository }}
-          image: ${{ env.REPO }}:${{ github.sha }}
-          #tag: ${{ env.REPO }}:${{ github.sha }}
+          image: hellowebapp
+          tag: hellowebapp:v1
           #git_access_token: ${{ secrets.git_access_token }}          
           branch: main
 
