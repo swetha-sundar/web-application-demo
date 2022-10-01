@@ -24,7 +24,7 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: Build and deploy a container to an Azure Web App
+name: Build and deploy a ACR container to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: ssiskgdemoapp  # set this to the name of your Azure Web App
@@ -69,7 +69,7 @@ jobs:
           registry: ${{ secrets.registry }}
           repository: ${{ secrets.repository }}
           image: hellowebapp
-          tag: hellowebapp:v1
+          #tag: hellowebapp:v1
           #git_access_token: ${{ secrets.git_access_token }}          
           branch: main
 
