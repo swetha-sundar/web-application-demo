@@ -5,8 +5,8 @@ name: Build and deploy Node.js app to Azure Web App - ssiskgdemoapp
 
 on:
   push:
-    branches:
-      - main
+   # branches:
+   #   - main
   workflow_dispatch:
 
 jobs:
