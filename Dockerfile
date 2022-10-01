@@ -1,6 +1,6 @@
 FROM node:16.17.1-alpine
 
-ENV NODE_ENV=production
+ENV NODE_ENV=dev
 
 WORKDIR /
 
