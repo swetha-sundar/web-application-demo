@@ -1,4 +1,4 @@
-FROM node:16.17.1
+FROM node:16.17.1-alpine
 
 ENV NODE_ENV=production
 
