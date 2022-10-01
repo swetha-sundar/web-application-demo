@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: https://iskgacr.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_50a82d0e0a5b45c59e1c60256dfe475d }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_8202d5fcea3549b78eb5034566b8d792 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_73b1ab306f0440029b1022ae674271ae }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_5d98d06adbde44e1a9a347b16b43ed2f }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: iskgacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_50a82d0e0a5b45c59e1c60256dfe475d }}/hellowebapp/hellowebapp:${{ github.sha }}
+        tags: iskgacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_73b1ab306f0440029b1022ae674271ae }}/hellowebapp/hellowebapp:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'ssiskgdemoapp'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_9a8b6f3cbfbb4da6878fc459e4e3a57c }}
-        images: 'iskgacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_50a82d0e0a5b45c59e1c60256dfe475d }}/hellowebapp/hellowebapp:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_9f6e110035964deaad4a4d14c4e50a56 }}
+        images: 'iskgacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_73b1ab306f0440029b1022ae674271ae }}/hellowebapp/hellowebapp:${{ github.sha }}'
